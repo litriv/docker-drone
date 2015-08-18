@@ -1,0 +1,23 @@
+#! /bin/bash -
+
+# TODO check if ac_drone image exists and if not, build it:
+# docker build -t ac_drone .
+
+docker run -d --name="drone-ci" \
+	-e "DRONE_SESSION_SECRET=70038eaa535c0ad1ae468c9b5ade50834086a585" \
+	-e "DRONE_SESSION_EXPIRES=72h" \
+	-e "DRONE_GITHUB_CLIENT=5924e97e9650786d24d1" \
+	-e "DRONE_GITHUB_SECRET=f413a0dd0973276916f54c1d33b65eae6f309592" \
+	-v /var/lib/drone/ \
+	-v /var/run/docker.sock:/var/run/docker.sock \
+	-v $(pwd)/drone.sqlite:/var/lib/drone/drone.sqlite \
+	-p 80:80 \
+	ac_drone
+
+# touch drone.sqlite
+# docker run -d --name="drone-ci" \
+    # -p 8080:8080 \
+    # -v /var/lib/drone/ \
+    # -v /var/run/docker.sock:/var/run/docker.sock \
+    # -v /home/core/alphacrowd_ci/drone.sqlite:/var/lib/drone/drone.sqlite \
+    # ac_drone
